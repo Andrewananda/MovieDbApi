@@ -4,6 +4,7 @@ import styles from './styles';
 import {moderateScale} from 'react-native-size-matters';
 import {CommonActions} from '@react-navigation/native';
 import Props from './types';
+import colors from '../../utilities/colors';
 
 export default class Splash extends Component<Props> {
   componentDidMount() {
@@ -30,7 +31,7 @@ export default class Splash extends Component<Props> {
           style={styles.imageStyle}
         />
         <ActivityIndicator
-          color={'#fff'}
+          color={colors.white}
           size={moderateScale(20)}
           style={styles.activityIndicator}
         />
