@@ -18,4 +18,13 @@ export default StyleSheet.create({
     alignContent: 'center',
     flex: 1,
   },
+  emptyListContainer: {
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  txtNoMoviesFound: {
+    alignSelf: 'center',
+    fontSize: moderateScale(21),
+    fontWeight: 'bold',
+  }
 });

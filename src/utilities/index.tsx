@@ -1,4 +1,5 @@
 import NetInfo from '@react-native-community/netinfo';
+import {IMovie} from '../screens/movies/model/movie';
 
 export const withNetwork = (action: any, onNetworkError: any) => {
   NetInfo.fetch()

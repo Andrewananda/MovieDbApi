@@ -11,16 +11,18 @@ import {moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/AntDesign';
 import colors from '../../../utilities/colors';
 import Props from './types';
-import {withNetwork} from '../../../utilities';
+import {genericSearch, withNetwork} from '../../../utilities';
 import {fetchMovies} from '../../../network';
 import styles from './styles';
 import {MovieCard} from '../components/MovieCard';
+import {IMovie} from '../model/movie';
 
 export default class Dashboard extends Component<Props> {
   state = {
     showSearch: false,
     data: [],
     loading: true,
+    searchValue: '',
   };
 
   componentDidMount() {
@@ -42,6 +44,7 @@ export default class Dashboard extends Component<Props> {
                 1,
               )[0],
             );
+            _this.arrayholder = filteredMovies;
             _this.setState({data: filteredMovies, loading: false});
           })
           .catch(error => {
@@ -54,12 +57,33 @@ export default class Dashboard extends Component<Props> {
     );
   }
 
+  searchFilterFunction(text: string) {
+    const newData = this.arrayholder.filter((data: Props) => {
+      const itemData = `${data.original_title}
+    ${data.original_name} ${data.media_type} ${data.release_date} ${data.first_air_date}`;
+
+      const textData = text.toUpperCase();
+
+      return itemData.indexOf(textData) > -1;
+    });
+
+    this.setState({data: newData, searchValue: text});
+  }
+
   showSearch = () => {
     this.setState({showSearch: !this.state.showSearch});
   };
 
   renderItems = ({item}: any) => {
     return <MovieCard navigation={this.props.navigation} item={item} />;
+  };
+
+  renderEmptyComponent = () => {
+    return (
+      <View style={styles.emptyListContainer}>
+        <AppText style={styles.txtNoMoviesFound}>No movies found</AppText>
+      </View>
+    );
   };
 
   render() {
@@ -81,9 +105,17 @@ export default class Dashboard extends Component<Props> {
             {this.state.showSearch && (
               <View style={{flexDirection: 'row'}}>
                 <Search
-                  onChangeText={text => console.log(text)}
-                  value={'number'}
-                  placeholder="useless placeholder"
+                  onChangeText={text => this.searchFilterFunction(text)}
+                  value={this.state.searchValue}
+                  placeholder="Search"
+                  placeholderTextColor={colors.white}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: colors.white,
+                    color: colors.white,
+                    height: moderateScale(40),
+                    width: moderateScale(150),
+                  }}
                 />
                 <Icon
                   color={colors.white}
@@ -106,7 +138,11 @@ export default class Dashboard extends Component<Props> {
             />
           </View>
         ) : (
-          <FlatList data={this.state.data} renderItem={this.renderItems} />
+          <FlatList
+            data={this.state.data}
+            renderItem={this.renderItems}
+            ListEmptyComponent={this.renderEmptyComponent}
+          />
         )}
       </Container>
     );
