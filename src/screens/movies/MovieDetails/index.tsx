@@ -22,15 +22,8 @@ class MovieDetails extends Component<Props> {
     item: {},
     trending: [],
   };
-  componentDidMount() {
-    this.getData();
-  }
 
-  getData() {
-    let item = this.props.navigation;
-    console.log('item', item);
-  }
-
+  //Render movie card list
   renderItems = ({item}: any) => {
     return (
       <MovieCard
@@ -53,7 +46,9 @@ class MovieDetails extends Component<Props> {
           source={{
             uri: constants.imageBaseUrl + this.props.selectedItem.poster_path,
           }}>
-          <LinearGradient style={{height: moderateScale(360)}} colors={['#00141733', '#E1090B19', '#090A17']}>
+          <LinearGradient
+            style={{height: moderateScale(360)}}
+            colors={['#00141733', '#E1090B19', '#090A17']}>
             <View>
               <Icon
                 name={'arrowleft'}
