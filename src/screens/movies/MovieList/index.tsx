@@ -85,7 +85,9 @@ export default class Dashboard extends Component<Props> {
   }
 
   showSearch = () => {
-    this.setState({showSearch: !this.state.showSearch});
+    this.setState({showSearch: !this.state.showSearch, searchValue: ''}, () => {
+      this.searchFilterFunction('');
+    });
   };
 
   renderItems = ({item}: any) => {
