@@ -16,8 +16,12 @@ import {fetchMovies} from '../../../network';
 import styles from './styles';
 import {MovieCard} from '../components/MovieCard';
 import Message from '../../../components/Message';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addMovieList, addSelectedMovie} from '../../../redux/action';
+import {Result} from '../../../redux/type';
 
-export default class Dashboard extends Component<Props> {
+class Dashboard extends Component<Props> {
   state = {
     showSearch: false,
     data: [],
@@ -26,11 +30,14 @@ export default class Dashboard extends Component<Props> {
   };
 
   componentDidMount() {
+    //fetch trending movies list
     this.getData();
   }
 
   getData() {
+    //assign context to variable
     let _this = this;
+    //check if there is network before performing call to the api
     withNetwork(
       function () {
         fetchMovies()
@@ -71,6 +78,7 @@ export default class Dashboard extends Component<Props> {
     );
   }
 
+  //filter movies
   searchFilterFunction(text: string) {
     const newData = this.arrayholder.filter((data: Props) => {
       const itemData = `${data.original_title}
@@ -90,16 +98,22 @@ export default class Dashboard extends Component<Props> {
     });
   };
 
+  //render movies in card
   renderItems = ({item}: any) => {
     return (
       <MovieCard
         movieList={this.state.data}
-        navigation={this.props.navigation}
+        navigation={() => {
+          this.props.addSelectedMovie(item);
+          this.props.addMovieList(this.state.data);
+          this.props.navigation.navigate('MovieDetails');
+        }}
         item={item}
       />
     );
   };
 
+  //render empty view when there are no movies
   renderEmptyComponent = () => {
     return (
       <View style={styles.emptyListContainer}>
@@ -111,10 +125,11 @@ export default class Dashboard extends Component<Props> {
   render() {
     return (
       <Container>
+        {/*Add message component reference*/}
         <Message ref={ref => (this.message = ref)} />
         <View style={styles.content}>
+          {/*App header view*/}
           <AppText style={styles.txtTopMovies}>Top Movies</AppText>
-
           <View>
             {!this.state.showSearch && (
               <Icon
@@ -151,7 +166,7 @@ export default class Dashboard extends Component<Props> {
             )}
           </View>
         </View>
-
+        {/*When status is loading display this view*/}
         {this.state.loading ? (
           <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator
@@ -171,3 +186,13 @@ export default class Dashboard extends Component<Props> {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+      addSelectedMovie: (result: Result) => addSelectedMovie(result),
+      addMovieList: (movieList: Result[]) => addMovieList(movieList),
+    },
+    dispatch,
+  );
+export default connect(null, mapDispatchToProps)(Dashboard);
