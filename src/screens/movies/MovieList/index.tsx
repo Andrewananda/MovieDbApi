@@ -84,7 +84,7 @@ class Dashboard extends Component<Props> {
       const itemData = `${data.original_title}
     ${data.original_name} ${data.title} ${data.media_type} ${data.release_date} ${data.first_air_date}`;
 
-      const textData = text.toUpperCase();
+      const textData = text;
 
       return itemData.indexOf(textData) > -1;
     });
