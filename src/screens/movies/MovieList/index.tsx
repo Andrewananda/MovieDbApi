@@ -11,11 +11,11 @@ import {moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/AntDesign';
 import colors from '../../../utilities/colors';
 import Props from './types';
-import {genericSearch, withNetwork} from '../../../utilities';
+import {withNetwork} from '../../../utilities';
 import {fetchMovies} from '../../../network';
 import styles from './styles';
 import {MovieCard} from '../components/MovieCard';
-import {IMovie} from '../model/movie';
+import Message from '../../../components/Message';
 
 export default class Dashboard extends Component<Props> {
   state = {
@@ -48,11 +48,25 @@ export default class Dashboard extends Component<Props> {
             _this.setState({data: filteredMovies, loading: false});
           })
           .catch(error => {
-            console.log('Error', error);
+            this.message.showDialog(
+              'An error occurred while fetching trending movies kindly try again later',
+              () => {
+                _this.getData();
+                _this.message.dismiss();
+                _this.setState({loading: false});
+              },
+            );
           });
       },
       function (error: any) {
-        console.log('Error', error);
+        this.message.showDialog(
+          'No internet, kindly check your connectivity and try again',
+          () => {
+            _this.getData();
+            _this.message.dismiss();
+            _this.setState({loading: false});
+          },
+        );
       },
     );
   }
@@ -60,7 +74,7 @@ export default class Dashboard extends Component<Props> {
   searchFilterFunction(text: string) {
     const newData = this.arrayholder.filter((data: Props) => {
       const itemData = `${data.original_title}
-    ${data.original_name} ${data.media_type} ${data.release_date} ${data.first_air_date}`;
+    ${data.original_name} ${data.title} ${data.media_type} ${data.release_date} ${data.first_air_date}`;
 
       const textData = text.toUpperCase();
 
@@ -75,7 +89,13 @@ export default class Dashboard extends Component<Props> {
   };
 
   renderItems = ({item}: any) => {
-    return <MovieCard navigation={this.props.navigation} item={item} />;
+    return (
+      <MovieCard
+        movieList={this.state.data}
+        navigation={this.props.navigation}
+        item={item}
+      />
+    );
   };
 
   renderEmptyComponent = () => {
@@ -89,6 +109,7 @@ export default class Dashboard extends Component<Props> {
   render() {
     return (
       <Container>
+        <Message ref={ref => (this.message = ref)} />
         <View style={styles.content}>
           <AppText style={styles.txtTopMovies}>Top Movies</AppText>
 

@@ -7,11 +7,13 @@ import StarRating from 'react-native-star-rating';
 import React from 'react';
 import Props from '../MovieList/types';
 
-export const MovieCard = ({item, navigation}: Props) => {
+export const MovieCard = ({item, navigation, movieList}: Props) => {
   return (
     <TouchableOpacity
       style={{margin: moderateScale(10)}}
-      onPress={() => navigation.navigate('MovieDetails', {item: item})}>
+      onPress={() =>
+        navigation.navigate('MovieDetails', {item: item, list: movieList})
+      }>
       <View style={styles.container}>
         <View style={{width: moderateScale(120)}}>
           <Image
