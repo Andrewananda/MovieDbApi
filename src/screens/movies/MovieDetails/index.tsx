@@ -36,6 +36,15 @@ class MovieDetails extends Component<Props> {
     );
   };
 
+  //render empty view when there are no movies
+  renderEmptyComponent = () => {
+    return (
+      <View style={styles.emptyListContainer}>
+        <AppText style={styles.txtNoMoviesFound}>No movies found</AppText>
+      </View>
+    );
+  };
+
   render() {
     return (
       <Container>
@@ -143,6 +152,7 @@ class MovieDetails extends Component<Props> {
               item => item !== this.props.selectedItem,
             )}
             renderItem={this.renderItems}
+            ListEmptyComponent={this.renderEmptyComponent}
           />
         </View>
       </Container>
@@ -170,5 +180,14 @@ const styles = StyleSheet.create({
     width: moderateScale(50),
     height: moderateScale(50),
     margin: 0,
+  },
+  emptyListContainer: {
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  txtNoMoviesFound: {
+    alignSelf: 'center',
+    fontSize: moderateScale(21),
+    fontWeight: 'bold',
   },
 });
