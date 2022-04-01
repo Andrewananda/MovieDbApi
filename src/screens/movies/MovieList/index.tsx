@@ -35,6 +35,8 @@ class Dashboard extends Component<Props> {
   }
 
   getData() {
+    //set loading to true
+    this.setState({loading: true});
     //assign context to variable
     let _this = this;
     //check if there is network before performing call to the api
