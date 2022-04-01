@@ -57,7 +57,7 @@ class Dashboard extends Component<Props> {
             _this.setState({data: filteredMovies, loading: false});
           })
           .catch(error => {
-            this.message.showDialog(
+            _this.message.showDialog(
               'An error occurred while fetching trending movies kindly try again later',
               () => {
                 _this.getData();
@@ -68,7 +68,7 @@ class Dashboard extends Component<Props> {
           });
       },
       function (error: any) {
-        this.message.showDialog(
+        _this.message.showDialog(
           'No internet, kindly check your connectivity and try again',
           () => {
             _this.getData();
