@@ -82,7 +82,7 @@ class Dashboard extends Component<Props> {
 
   //filter movies
   searchFilterFunction(text: string) {
-    const newData = this.arrayholder.filter((data: Props) => {
+    const newData = this.arrayholder.filter((data: any) => {
       const itemData = `${data.original_title}
     ${data.original_name} ${data.title} ${data.media_type} ${data.release_date} ${data.first_air_date}`;
 

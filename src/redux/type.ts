@@ -3,6 +3,7 @@ export interface Result {
   name: string;
   id: number;
   original_name: string;
+  original_title: string;
   origin_country: string[];
   vote_count: string;
   backdrop_path: string;

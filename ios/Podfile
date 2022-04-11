@@ -5,7 +5,7 @@ platform :ios, '11.0'
 
 target 'WorkPay' do
   config = use_native_modules!
-
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
@@ -13,9 +13,7 @@ target 'WorkPay' do
   )
 
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
   target 'WorkPayTests' do
     inherit! :complete

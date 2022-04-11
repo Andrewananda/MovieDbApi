@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {FlatList, Image, ImageBackground, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {Container} from '../../../components/Container';
 import {connect} from 'react-redux';
 import {AppState} from '../../../redux/store';
@@ -58,91 +65,95 @@ class MovieDetails extends Component<Props> {
           <LinearGradient
             style={{height: moderateScale(360)}}
             colors={['#00141733', '#E1090B19', '#090A17']}>
-            <View>
-              <Icon
-                name={'arrowleft'}
-                color={colors.white}
-                style={{margin: moderateScale(10)}}
-                size={moderateScale(30)}
-                onPress={() => this.props.navigation.goBack()}
-              />
-              <View
-                style={{
-                  justifyContent: 'center',
-                  marginTop: moderateScale(90),
-                }}>
-                {(this.props.selectedItem.vote_average / 2).toFixed() ==
-                  '5' && (
-                  <AppText
-                    style={{
-                      marginStart: moderateScale(10),
-                      color: '#CDCED1',
-                      fontSize: moderateScale(14),
-                    }}>
-                    Top movie of the week
-                  </AppText>
-                )}
-                <View style={{flexDirection: 'row'}}>
+            <ScrollView>
+              <View>
+                <Icon
+                  name={'arrowleft'}
+                  color={colors.white}
+                  style={{margin: moderateScale(10)}}
+                  size={moderateScale(30)}
+                  onPress={() => this.props.navigation.goBack()}
+                />
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    marginTop: moderateScale(90),
+                  }}>
                   {(this.props.selectedItem.vote_average / 2).toFixed() ==
                     '5' && (
-                    <Image
-                      source={require('../../../../assets/gold_badge.png')}
-                      style={styles.badgeImage}
-                      resizeMode={'contain'}
-                      resizeMethod={'resize'}
-                    />
-                  )}
-                  <AppText
-                    style={{
-                      fontSize: moderateScale(32),
-                      width: '80%',
-                      marginStart:
-                        (this.props.selectedItem.vote_average / 2).toFixed() ==
-                        '5'
-                          ? 0
-                          : moderateScale(50),
-                    }}>
-                    {this.props.selectedItem.original_title
-                      ? this.props.selectedItem.original_title
-                      : this.props.selectedItem.original_name}
-                  </AppText>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <View style={{flex: 1}} />
-                  <View style={{flex: 6}}>
-                    <AppText>{this.props.selectedItem.overview}</AppText>
-                    <View
+                    <AppText
                       style={{
-                        flexDirection: 'row',
-                        marginTop: moderateScale(10),
+                        marginStart: moderateScale(10),
+                        color: '#CDCED1',
+                        fontSize: moderateScale(14),
                       }}>
-                      <StarRating
-                        disabled={true}
-                        maxStars={5}
-                        rating={(
-                          this.props.selectedItem.vote_average / 2
-                        ).toFixed()}
-                        fullStarColor={'#f3db40'}
-                        emptyStarColor={'#f3db40'}
-                        starSize={moderateScale(15)}
-                        containerStyle={{
-                          justifyContent: 'center',
-                          width: moderateScale(90),
-                        }}
-                        iconSet={'FontAwesome'}
+                      Top movie of the week
+                    </AppText>
+                  )}
+                  <View style={{flexDirection: 'row'}}>
+                    {(this.props.selectedItem.vote_average / 2).toFixed() ==
+                      '5' && (
+                      <Image
+                        source={require('../../../../assets/gold_badge.png')}
+                        style={styles.badgeImage}
+                        resizeMode={'contain'}
+                        resizeMethod={'resize'}
                       />
-                      <AppText>
-                        {(this.props.selectedItem.vote_average / 2).toFixed() +
-                          '/5'}
-                      </AppText>
+                    )}
+                    <AppText
+                      style={{
+                        fontSize: moderateScale(32),
+                        width: '80%',
+                        marginStart:
+                          (
+                            this.props.selectedItem.vote_average / 2
+                          ).toFixed() == '5'
+                            ? 0
+                            : moderateScale(50),
+                      }}>
+                      {this.props.selectedItem.original_title
+                        ? this.props.selectedItem.original_title
+                        : this.props.selectedItem.original_name}
+                    </AppText>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{flex: 1}} />
+                    <View style={{flex: 6}}>
+                      <AppText>{this.props.selectedItem.overview}</AppText>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          marginTop: moderateScale(10),
+                        }}>
+                        <StarRating
+                          disabled={true}
+                          maxStars={5}
+                          rating={(
+                            this.props.selectedItem.vote_average / 2
+                          ).toFixed()}
+                          fullStarColor={'#f3db40'}
+                          emptyStarColor={'#f3db40'}
+                          starSize={moderateScale(15)}
+                          containerStyle={{
+                            justifyContent: 'center',
+                            width: moderateScale(90),
+                          }}
+                          iconSet={'FontAwesome'}
+                        />
+                        <AppText>
+                          {(
+                            this.props.selectedItem.vote_average / 2
+                          ).toFixed() + '/5'}
+                        </AppText>
+                      </View>
                     </View>
                   </View>
                 </View>
               </View>
-            </View>
+            </ScrollView>
           </LinearGradient>
         </ImageBackground>
-        <View style={{marginBottom: moderateScale(80)}}>
+        <View style={{marginBottom: '110%'}}>
           <AppText
             style={{fontSize: moderateScale(24), margin: moderateScale(10)}}>
             Also Trending
